@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+~/.local/bin/mopidytermart -w 62 --host pochard.lan &
+
+ncfg=$(grep -v "^song_list_format" ~/.ncmpcpp/config)
+lf=$(grep "^song_list_format" ~/.ncmpcpp/config|head -1|sed 's/= "/= "                                                        /')
+
+ncmpcpp -h pochard.lan -c <(echo -e "$ncfg\n$lf")

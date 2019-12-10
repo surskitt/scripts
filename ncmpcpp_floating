@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+feh --geometry=450x450+415+298 -Z -R 0.1 -. ~/.cache/mopidy/images/current.png &
+fehpid=$!
+
+xst -t floating -g 90x28+869+298 -e ncmpcpp
+
+kill $fehpid
