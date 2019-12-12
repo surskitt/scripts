@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 get_icon() {
     # icon_name_template = 'notification-display-brightness-{}.svg'
     # if val == 0:
