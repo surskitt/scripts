@@ -16,7 +16,7 @@ fi
 
 mkfifo "${cmdpipe}"
 
-trap "rm ${cmdpipe}; exit" SIGHUP SIGINT SIGQUIT SIGTERM
+trap "rm ${cmdpipe}; exit" EXIT
 
 ${cmd} >"${cmdlog}" 2>&1 &
 state=true
