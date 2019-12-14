@@ -10,7 +10,7 @@ fi
 declare -A icons
 for i in "${@}"; do
     if [[ "${i}" != *"="* ]]; then
-        echo "Error: "${i}" not in cmd=icon format" >&2
+        echo "Error: ${i} not in cmd=icon format" >&2
         continue
     fi
 
@@ -20,9 +20,9 @@ for i in "${@}"; do
     icons[${cmd}]="${icon}"
 done
 
-tail -n 1 -f "${state_file}"|while read line; do
+tail -n 1 -f "${state_file}"|while read -r line; do
     readarray -d " " cmds <<< "${line}"
-    for cmd in ${cmds[@]}; do
+    for cmd in "${cmds[@]}"; do
         cmd_name="${cmd%=*}"
         cmd_state="${cmd#*=}"
 
