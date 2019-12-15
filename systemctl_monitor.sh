@@ -8,6 +8,7 @@ while getopts 'u' flag; do
             ;;
     esac
 done
+shift $((OPTIND-1))
 
 unit_args() {
     for i in "${@}"; do
