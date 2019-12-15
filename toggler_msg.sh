@@ -21,12 +21,12 @@ for i in "${@}"; do
 done
 
 tail -n 1 -f "${state_file}"|while read -r line; do
+    cmd_out=()
     readarray -d " " cmds <<< "${line}"
     for cmd in "${cmds[@]}"; do
         cmd_name="${cmd%=*}"
         cmd_state="${cmd#*=}"
 
-        cmd_out=()
         if ${cmd_state}; then
             # echo -n "%{F-}${icons[$cmd_name]} "
             cmd_out+=("%{F-}${icons[$cmd_name]}")
