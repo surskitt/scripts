@@ -31,12 +31,15 @@ for i in "${@}"; do
 done
 
 journalctl -n 1 ${USER_ARG} -f -o cat $(unit_args "${!icons[@]}") | while read -r; do
+    svc_out=()
     for svc in "${!icons[@]}"; do
         if [ "$(systemctl ${USER_ARG} is-active "${svc}")" = "active" ]; then
-            echo -n "%{F-}${icons[$svc]} "
+            # echo -n "%{F-}${icons[$svc]} "
+            svc_out+=("%{F-}${icons[$svc]}")
         else
-            echo -n "%{F#65737E}${icons[$svc]} "
+            # echo -n "%{F#65737E}${icons[$svc]} "
+            svc_out+=("%{F#65737E}${icons[$svc]}")
         fi
     done
-    echo
+    echo "${svc_out[@]}"
 done

@@ -26,13 +26,15 @@ tail -n 1 -f "${state_file}"|while read -r line; do
         cmd_name="${cmd%=*}"
         cmd_state="${cmd#*=}"
 
+        cmd_out=()
         if ${cmd_state}; then
-            echo -n "%{F-}${icons[$cmd_name]} "
+            # echo -n "%{F-}${icons[$cmd_name]} "
+            cmd_out+=("%{F-}${icons[$cmd_name]}")
         else
-            echo -n "%{F#65737E}${icons[$cmd_name]} "
+            # echo -n "%{F#65737E}${icons[$cmd_name]} "
+            cmd_out+=("%{F#65737E}${icons[$cmd_name]}")
         fi
     done
-
-    echo
+    echo "${cmd_out[@]}"
 
 done
