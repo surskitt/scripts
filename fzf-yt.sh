@@ -148,9 +148,27 @@ download_vids() {
 
     "${tsp}" && tsp_cmd=tsp
 
+    fn="${outdir}/%(upload_date)s - %(title)s - %(id)s (%(extractor)s).%(ext)s"
     while read -r id; do
+        ~/.scripts/youtube-dl.sh "https://youtu.be/${id}"
         # ${tsp_cmd} youtube-dl -o "${output_dir}/%(title)s - %(uploader)s - %(id)s.%(ext)s" "https://youtu.be/${id}"
-        ${tsp_cmd} bash -c "until youtube-dl -o \"${output_dir}/%(title)s - %(uploader)s - %(id)s.%(ext)s\" \"https://youtu.be/${id}\"; do sleep 2; done"
+        # ${tsp_cmd} bash -c "until youtube-dl -o \"${output_dir}/%(title)s - %(uploader)s - %(id)s.%(ext)s\" \"https://youtu.be/${id}\"; do sleep 2; done"
+        # ${tsp_cmd} youtube-dl \
+        #     --ignore-config \
+        #     --no-color \
+        #     --no-playlist \
+        #     --mark-watched \
+        #     --merge-output-format mkv \
+        #     --ignore-errors \
+        #     --retries 10 \
+        #     --no-mtime \
+        #     --sub-lang en,en_US \
+        #     --write-sub \
+        #     --embed-subs \
+        #     --add-metadata \
+        #     --format 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' \
+        #     --output "${output_dir}/${fn}" \
+        #     "https://youtu.be/${id}"
     done <<< "${ids}"
 }
 
