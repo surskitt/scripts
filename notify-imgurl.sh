@@ -11,7 +11,8 @@ shift 2
 msg="${*}"
 
 tmpdir="/tmp/albumart"
-fn="${url##*/}"
+sum=$(md5sum <<< ${url})
+fn="${sum% *}"
 path="${tmpdir}/${fn}"
 
 mkdir -p "${tmpdir}"
