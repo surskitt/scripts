@@ -8,14 +8,18 @@ usage() {
     echo "Usage: ${0} [-v] [-h]"
     echo "Options:"
     echo "  -v    verbose output, show all found repo status"
+    echo "  -d    specify root search directory"
     echo "  -h    show this help"
 }
 
 VERBOSE=false
-while getopts 'vh' opt; do
+while getopts 'vd:h' opt; do
     case "${opt}" in
         v)
             VERBOSE=true
+            ;;
+        d)
+            cd "${OPTARG}"
             ;;
         h)
             usage
@@ -48,7 +52,7 @@ green() {
     colour 0 32 "${*}"
 }
 
-find "${PWD}" -type d -name .git|while read g; do
+find "${PWD}" -type d -name .git 2>/dev/null|while read g; do
     repo="${g%/.git}"
 
     if ! gr "${g}" rev-parse --verify develop >/dev/null 2>&1; then
