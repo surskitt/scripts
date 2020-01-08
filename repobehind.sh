@@ -5,21 +5,32 @@
 #
 
 usage() {
-    echo "Usage: ${0} [-v] [-h]"
+    echo "Usage: ${0} [-v] [-d ROOTDIR] [-s SRC] [-d DEST] [-h]"
     echo "Options:"
     echo "  -v    verbose output, show all found repo status"
-    echo "  -d    specify root search directory"
+    echo "  -D    specify root search directory"
+    echo "  -s    specify source branch (default develop)"
+    echo "  -d    specify destination branch (default master)"
     echo "  -h    show this help"
 }
 
 VERBOSE=false
-while getopts 'vd:h' opt; do
+SRC=develop
+DEST=master
+
+while getopts 'vD:s:d:h' opt; do
     case "${opt}" in
         v)
             VERBOSE=true
             ;;
-        d)
+        D)
             cd "${OPTARG}"
+            ;;
+        s)
+            SRC="${OPTARG}"
+            ;;
+        d)
+            DEST="${OPTARG}"
             ;;
         h)
             usage
@@ -34,6 +45,10 @@ done
 
 gr() {
     git --git-dir "${1}" --work-tree "${1%/.git}" "${@:2}"
+}
+
+branch_exists() {
+    gr "${1}" rev-parse --verify "${2}" >/dev/null 2>&1
 }
 
 colour() {
@@ -52,19 +67,24 @@ green() {
     colour 0 32 "${*}"
 }
 
-find "${PWD}" -type d -name .git 2>/dev/null|while read g; do
+find "${PWD}" -type d -name .git 2>/dev/null | sort | while read g; do
     repo="${g%/.git}"
 
-    if ! gr "${g}" rev-parse --verify develop >/dev/null 2>&1; then
-        "${VERBOSE}" && red "${repo}: no develop branch"
+    if ! branch_exists "${g}" "${SRC}"; then
+        "${VERBOSE}" && red "${repo}: no "${SRC}" branch"
         continue
     fi
 
-    commits=$(gr "${g}" log --oneline master..develop|wc -l)
+    if ! branch_exists "${g}" "${DEST}"; then
+        "${VERBOSE}" && red "${repo}: no "${DEST}" branch"
+        continue
+    fi
+
+    commits=$(gr "${g}" log --oneline ${DEST}..${SRC}|wc -l)
 
     if [[ "${commits}" -eq 0 ]]; then
-        "${VERBOSE}" && green "${repo}: develop is even with master"
+        "${VERBOSE}" && green "${repo}: ${SRC} is even with ${DEST}"
     else
-        yellow "${repo}: develop is "${commits}" commits ahead of master"
+        yellow "${repo}: ${SRC} is ${commits} commit(s) ahead of ${DEST}"
     fi
 done
