@@ -8,4 +8,4 @@
 #     while sleep 1; do playerctl metadata --format '{{ status }} {{ artist }} - {{ title }}'|sed 's/Playing//;s/Paused/%{F#65737E}/;s/Stopped/%{F#65737E}/'; done
 # fi
 
-while sleep 3; do playerctl -p spotifyd metadata --format '{{ status }} {{ artist }} - {{ title }}'|sed 's/Playing//;s/Paused/%{F#65737E}/;s/Stopped/%{F#65737E}/'; done
+playerctl -p spotify metadata --format '{{ status }} {{ artist }} - {{ title }}' --follow|sed 's/Playing//;s/Paused/%{F#65737E}/;s/Stopped/%{F#65737E}/'
