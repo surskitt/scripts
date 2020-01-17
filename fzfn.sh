@@ -65,8 +65,10 @@ if ! type "${IMAGE_PROCESSOR}" >/dev/null 2>&1; then
     exit 1
 fi
 
+FZF_FIELDS_NO_IMG="$(fzf_field_cmd ${IMAGE_FIELD})"
+
 if "${IMAGE_HIDE}"; then
-    FZF_HIDE_ARG="--with-nth $(fzf_field_cmd ${IMAGE_FIELD})"
+    FZF_HIDE_ARG="--with-nth ${FZF_FIELDS_NO_IMG}"
 fi
 
-cat | fzf ${FZF_HIDE_ARG} --bind "ctrl-p:execute(dunstify -i \$(${IMAGE_PROCESSOR} {${IMAGE_FIELD}}) '')" "${@}"
+cat | fzf ${FZF_HIDE_ARG} --bind "ctrl-P:execute(dunstify -r 1001 -i \$(${IMAGE_PROCESSOR} {${IMAGE_FIELD}}) {${FZF_FIELDS_NO_IMG}})" "${@}"
