@@ -69,4 +69,4 @@ if "${IMAGE_HIDE}"; then
     FZF_HIDE_ARG="--with-nth $(fzf_field_cmd ${IMAGE_FIELD})"
 fi
 
-cat | fzf ${FZF_HIDE_ARG} --bind "ctrl-i:execute(dunstify -i \$(${IMAGE_PROCESSOR} {${IMAGE_FIELD}}) '')" "${@}"
+cat | fzf ${FZF_HIDE_ARG} --bind "ctrl-p:execute(dunstify -i \$(${IMAGE_PROCESSOR} {${IMAGE_FIELD}}) '')" "${@}"
