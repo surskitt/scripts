@@ -37,7 +37,7 @@ IMAGE_FIELD=1
 IMAGE_PROCESSOR="echo"
 IMAGE_HIDE=false
 
-while getopts 'I:F:Hh' opt ; do
+while getopts 'I:F:HO:h' opt ; do
     case "${opt}" in
         I)
             IMAGE_PROCESSOR="${OPTARG}"
@@ -47,6 +47,9 @@ while getopts 'I:F:Hh' opt ; do
             ;;
         H)
             IMAGE_HIDE=true
+            ;;
+        O)
+            IMAGE_HIDE_OVERRIDE="${OPTARG}"
             ;;
         h)
             usage
@@ -68,7 +71,7 @@ fi
 FZF_FIELDS_NO_IMG="$(fzf_field_cmd ${IMAGE_FIELD})"
 
 if "${IMAGE_HIDE}"; then
-    FZF_HIDE_ARG="--with-nth ${FZF_FIELDS_NO_IMG}"
+    FZF_HIDE_ARG="--with-nth ${IMAGE_HIDE_OVERRIDE:-${FZF_FIELDS_NO_IMG}}"
 fi
 
-cat | fzf ${FZF_HIDE_ARG} --bind "ctrl-P:execute(dunstify -r 1001 -i \$(${IMAGE_PROCESSOR} {${IMAGE_FIELD}}) {${FZF_FIELDS_NO_IMG}})" "${@}"
+cat | fzf ${FZF_HIDE_ARG} --bind "ctrl-P:execute(dunstify -r 1001 -i \$(${IMAGE_PROCESSOR} {${IMAGE_FIELD}}) {${IMAGE_HIDE_OVERRIDE:-${FZF_FIELDS_NO_IMG}}})" "${@}"
