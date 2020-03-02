@@ -8,4 +8,5 @@
 #     while sleep 1; do playerctl metadata --format '{{ status }} {{ artist }} - {{ title }}'|sed 's/Playing//;s/Paused/%{F#65737E}/;s/Stopped/%{F#65737E}/'; done
 # fi
 
-playerctl -p spotify metadata --format '{{ status }} {{ artist }} - {{ title }}' --follow|sed 's/Playing//;s/Paused/%{F#65737E}/;s/Stopped/%{F#65737E}/'
+# playerctl -p spotify metadata --format '{{ status }} {{ artist }} - {{ title }}' --follow 2>/dev/null|sed 's/Playing//;s/Paused/%{F#65737E}/;s/Stopped/%{F#65737E}/'
+playerctl -p spotify metadata --format '{{ emoji(status) }} {{ artist }} - {{ title }}' --follow 2>/dev/null

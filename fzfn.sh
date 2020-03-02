@@ -11,6 +11,7 @@ usage() {
     echo "  -I    Command to run to get fn of image"
     echo "  -F    Input field to process for image"
     echo "  -H    Hide image field"
+    echo "  -O    Override the field index used to remove image from notification"
     echo
     echo "run fzf -h for further args"
 }
@@ -23,7 +24,9 @@ fzf_field_cmd() {
         exit
     fi
 
-    echo "$((n-1)),$((n+1)).."
+    echo ..
+
+    # echo "$((n-1)),$((n+1)).."
 }
 
 if [ ! -p /dev/stdin ]; then
