@@ -4,7 +4,11 @@ POLYBAR_CONFIG="${HOME}/.config/polybar/config"
 NOTIFY_QUEUE=/tmp/polybar_notify
 NOTIFY_LENGTH=3
 
-args="${@}"
+if [[ -p /dev/stdin ]]; then
+    read args < /dev/stdin
+else
+    args="${@}"
+fi
 
 echo "${args}" >> "${NOTIFY_QUEUE}"
 initial_queue_stat="$(stat -c '%Y' ${NOTIFY_QUEUE})"
