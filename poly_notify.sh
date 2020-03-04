@@ -4,8 +4,7 @@ POLYBAR_CONFIG="${HOME}/.config/polybar/config"
 NOTIFY_QUEUE=/tmp/polybar_notify
 NOTIFY_LENGTH=3
 
-cmd="${1}"
-args="${@:2}"
+args="${@}"
 
 echo "${args}" >> "${NOTIFY_QUEUE}"
 initial_queue_stat="$(stat -c '%Y' ${NOTIFY_QUEUE})"
