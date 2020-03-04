@@ -21,13 +21,14 @@ get_icon() {
 
 notify() {
     script_dir="$(dirname $0)"
+    volume="$(pamixer --get-volume)"
 
     if pamixer --get-mute >/dev/null ; then
-        "${script_dir}/poly_notify.sh" "$(get_icon mute) Volume muted"
+        "${script_dir}/poly_notify.sh" "$(get_icon mute) Volume: muted $(bar.sh ${volume})"
     else
-        volume="$(pamixer --get-volume)"
+        # volume="$(pamixer --get-volume)"
         icon=$(get_icon "${volume}")
-        "${script_dir}/poly_notify.sh" "${icon} Volume ${volume}%"
+        "${script_dir}/poly_notify.sh" "${icon} Volume:  $(bar.sh -p ${volume})"
     fi
 }
 
