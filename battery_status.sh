@@ -11,4 +11,9 @@ else
     status="until full"
 fi
 
+if [[ "${percent}" == "100%" && "${status}" == "until full" ]]; then
+    echo "⏻ battery full"
+    exit
+fi
+
 echo "⏻ battery ${percent} - ${time} ${status}"

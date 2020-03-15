@@ -18,7 +18,7 @@ if [[ ! -f /tmp/polybar_config_bak ]]; then
 fi
 
 if ! grep -q "modules-right = notify" "${POLYBAR_CONFIG}"; then
-    sed -i "s/modules-right.*/modules-right = notify/" "${POLYBAR_CONFIG}"
+    sed -i "s/modules-right.*/modules-right = notify/;s/wm-restack.*/wm-restack = /" "${POLYBAR_CONFIG}"
 fi
 
 sleep "${NOTIFY_LENGTH}"
