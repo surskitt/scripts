@@ -21,4 +21,4 @@ done
 shift $(( OPTIND - 1 ))
 
 bspc rule -a \* -o state=floating "${FOCUS_ARG}"
-exec ${*}
+exec ${*} || bspc rule -a \* -o state=normal focus=on
