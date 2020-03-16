@@ -5,7 +5,7 @@ if [ -z "${DISPLAY}" ]; then
     exit 1
 fi
 
-PREVIEWER="floater.sh -b cmd_control.sh -i 999 sxiv -a -b -g 500x500-10+10 ~/.cache/preview_img"
+PREVIEWER="floater.sh -b cmd_control.sh -i 999 sxiv -a -b -g 250x250+5+5 ~/.cache/preview_img"
 PREVIEWER_KILL="floater.sh -b cmd_control.sh -k -i 999 sxiv -a -b -g 500x500-10+10 ~/.cache/preview_img"
 
 usage() {
