@@ -4,11 +4,13 @@ TEMPDIR=/tmp/curlout
 
 mkdir -p "${TEMPDIR}"
 
-fn="${TEMPDIR}/${1##*/}"
+f="${1##*/}"
+f="${f##*\=}"
+fn="${TEMPDIR}/${f}"
 
 if [ -f "${fn}" ]; then
     echo "${fn}"
     exit
 fi
 
-curl -s "${1}" -o "${fn}" && echo "${fn}"
+curl -L -s "${1}" -o "${fn}" && echo "${fn}"
