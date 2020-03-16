@@ -1,15 +1,23 @@
 #!/usr/bin/env bash
 usage() {
-    echo "Usage: ${0} [-i]"
+    echo "Usage: ${0} [-i] [-s] [-k]"
 }
 
 
 ID="${1}"
+START=true
+KILL=true
 
-while getopts 'i:bh' opt; do
+while getopts 'i:skbh' opt; do
     case "${opt}" in
         i)
             ID="${OPTARG}"
+            ;;
+        s)
+            KILL=false
+            ;;
+        k)
+            START=false
             ;;
         h)
             usage
@@ -25,19 +33,23 @@ shift $(( OPTIND - 1 ))
 controller="/tmp/controller_${ID}"
 
 if [ -p "${controller}" ]; then
-    echo kill > "${controller}"
+    if $KILL; then
+        echo kill > "${controller}"
+    fi
     exit
 fi
 
-${*} &
-pid="${!}"
+if ${START}; then
+    ${*} &
+    pid="${!}"
 
-echo "Controlling '${*}' with pid ${pid}"
+    echo "Controlling '${*}' with pid ${pid}"
 
-mkfifo "${controller}"
+    mkfifo "${controller}"
 
-while read; do
-    kill "${pid}"
-done < "${controller}"
+    while read; do
+        kill "${pid}"
+    done < "${controller}"
 
-rm "${controller}"
+    rm "${controller}"
+fi
