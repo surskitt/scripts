@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 
 if [ -z "${DISPLAY}" ]; then
-    echo "Error: No X display found"
-    exit 1
+    echo "Error: No X display found" >&2
+    cat | fzf "${@}"
 fi
-
-PREVIEWER="floater.sh -b cmd_control.sh -i 999 sxiv -a -b -g 250x250+5+5 ~/.cache/preview_img"
-PREVIEWER_KILL="floater.sh -b cmd_control.sh -k -i 999 sxiv -a -b -g 500x500-10+10 ~/.cache/preview_img"
 
 usage() {
     echo "Usage: input | ${0} [-I IMAGE_PROCESSOR] [-F IMAGE_FIELD] [-h] -- ...FZF_ARGS"
@@ -42,8 +39,9 @@ fi
 IMAGE_FIELD=1
 IMAGE_PROCESSOR=echo
 IMAGE_HIDE=false
+PREVIEW_GEOMETRY=250x250
 
-while getopts 'I:F:HO:h' opt ; do
+while getopts 'I:F:HO:g:h' opt ; do
     case "${opt}" in
         I)
             IMAGE_PROCESSOR="${OPTARG}"
@@ -57,6 +55,9 @@ while getopts 'I:F:HO:h' opt ; do
         O)
             IMAGE_HIDE_OVERRIDE="${OPTARG}"
             ;;
+        g)
+            PREVIEW_GEOMETRY="${OPTARG}"
+            ;;
         h)
             usage
             exit
@@ -66,6 +67,9 @@ while getopts 'I:F:HO:h' opt ; do
             ;;
     esac
 done
+
+PREVIEWER="floater.sh -b cmd_control.sh -i 999 sxiv -a -b -g ${PREVIEW_GEOMETRY}+5+5 ~/.cache/preview_img"
+PREVIEWER_KILL="cmd_control.sh -k -i 999"
 
 export IMAGE_PROCESSOR
 export IMAGE_FIELD
@@ -83,7 +87,6 @@ if "${IMAGE_HIDE}"; then
     FZF_HIDE_ARG="--with-nth ${IMAGE_HIDE_OVERRIDE:-${FZF_FIELDS_NO_IMG}}"
 fi
 
-# cat | fzf ${FZF_HIDE_ARG} --bind "ctrl-P:execute(dunstify -r 1001 -i \$(${IMAGE_PROCESSOR} {${IMAGE_FIELD}}) {${IMAGE_HIDE_OVERRIDE:-${FZF_FIELDS_NO_IMG}}})" "${@}"
 cat | fzf --preview='cp $(${IMAGE_PROCESSOR} {1}) ~/.cache/preview_img' --bind "ctrl-P:execute(${PREVIEWER} >/dev/null 3>&1 &)" --preview-window=down:0% "${@}"
 
 ${PREVIEWER_KILL}
