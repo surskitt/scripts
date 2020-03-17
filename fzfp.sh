@@ -68,7 +68,7 @@ while getopts 'I:F:HO:g:h' opt ; do
     esac
 done
 
-PREVIEWER="floater.sh -b cmd_control.sh -i 999 sxiv -a -b -g ${PREVIEW_GEOMETRY}+5+5 ~/.cache/preview_img"
+PREVIEWER="cmd_control.sh -i 999 floater.sh -b sxiv -a -b -g ${PREVIEW_GEOMETRY}+5+5 ~/.cache/preview_img 2>/dev/null"
 PREVIEWER_KILL="cmd_control.sh -k -i 999"
 
 export IMAGE_PROCESSOR
@@ -87,6 +87,6 @@ if "${IMAGE_HIDE}"; then
     FZF_HIDE_ARG="--with-nth ${IMAGE_HIDE_OVERRIDE:-${FZF_FIELDS_NO_IMG}}"
 fi
 
-cat | fzf --preview='cp $(${IMAGE_PROCESSOR} {1}) ~/.cache/preview_img' --bind "ctrl-P:execute(${PREVIEWER} >/dev/null 3>&1 &)" --preview-window=down:0% "${@}"
+cat | fzf --preview='cp "$(${IMAGE_PROCESSOR} {1})" ~/.cache/preview_img' --bind "ctrl-P:execute(${PREVIEWER} >/dev/null 2>&1 &)" --preview-window=down:0% "${@}"
 
 ${PREVIEWER_KILL}
