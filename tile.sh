@@ -18,7 +18,7 @@ bspc desktop -f files
 
 pids=()
 for i in "${@}"; do
-    mimetype=$(file -b --mime-type "${i}")
+    mimetype=$(file -L -b --mime-type "${i}")
     case "${mimetype}" in
         image/jpeg)
             feh "${i}" &
