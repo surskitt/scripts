@@ -47,7 +47,7 @@ case "${mime}" in
         vthumb.sh -v "${1}" 2>/dev/null
         ;;
     inode/directory)
-        if ls "${1}/".folder.* 2>/dev/null; then
+        if ls "${1}/".folder 2>/dev/null; then
             :
         else
             misc_handler "${1}"
