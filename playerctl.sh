@@ -66,7 +66,7 @@ pause_others() {
     playerctl -l|grep -v "${player}"|while read p; do
         playerctl -p "${p}" pause
     done
-    if [[ player != "${player}" && "$(playerctl -p pocket_casts_linux status)" == "Playing" ]]; then
+    if [[ "${player}" != pocket_casts_linux && "$(playerctl -p pocket_casts_linux status)" == "Playing" ]]; then
         playerctl -p "${p}" play-pause
     fi
 }
@@ -100,8 +100,8 @@ case "${cmd}" in
                     daemon_run &
                     ;;
                 play|pause|play-pause|previous|next)
-                    pause_others
                     playerctl -p "${player}" "${pcmd}"
+                    pause_others
                     ;;
                 *)
                     ;;
