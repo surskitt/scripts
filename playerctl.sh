@@ -66,6 +66,9 @@ pause_others() {
     playerctl -l|grep -v "${player}"|while read p; do
         playerctl -p "${p}" pause
     done
+    if [[ player != "${player}" && "$(playerctl -p pocket_casts_linux status)" == "Playing" ]]; then
+        playerctl -p "${p}" play-pause
+    fi
 }
 
 if [ $# -lt 1 ]; then
@@ -77,7 +80,9 @@ cmd="${1}"
 
 case "${cmd}" in
     daemon)
+        trap "cleanup" SIGKILL
         trap "cleanup" SIGINT
+        trap "cleanup" EXIT
 
         if daemon_running; then
             echo "Daemon is already running" >&2
