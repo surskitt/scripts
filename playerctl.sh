@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+STATUS_TRUNC=50
+
 cleanup() {
     echo
+    pkill -P $$ playerctl
     echo "Cleaning up files" >&2
     rm -f /tmp/playerctl_tail
     rm -f /tmp/playerctl_pipe
@@ -34,7 +37,7 @@ player_icon() {
 }
 
 next_player() {
-    players=($(playerctl -l))
+    players=($(playerctl -l|grep -v chromium))
 
     for i in "${!players[@]}"; do
         if [[ "${players[$i]}" = "${player}" ]]; then
