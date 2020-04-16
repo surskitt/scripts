@@ -66,7 +66,7 @@ daemon_running() {
 }
 
 pause_others() {
-    playerctl -l|grep -v "${player}"|while read p; do
+    playerctl -l|grep -v "${player}"|grep -v chromium|while read p; do
         playerctl -p "${p}" pause
     done
     if [[ "${player}" != pocket_casts_linux && "$(playerctl -p pocket_casts_linux status)" == "Playing" ]]; then
