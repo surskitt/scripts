@@ -15,8 +15,7 @@ for b in j:
     fn = path[0]
 
     title = b["title"]
-    authors = b["authors"]
-    name = f"{authors} - {title}"
-    out = f"{name}	{fn}"
+    tags = ", ".join(b["*tags"])
+    out = f"{title} ({tags})	{fn}"
 
     print(out)
