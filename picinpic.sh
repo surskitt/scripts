@@ -10,6 +10,12 @@ else
     WIN="$(pfw)"
 fi
 
+if [[ "${WINSCALE}" -eq 0 ]]; then
+    bspc node "${WIN}" -t tiled
+    bspc node "${WIN}" -g sticky=false
+    exit
+fi
+
 ROOT="$(lsw -r)"
 SW="$(wattr w ${ROOT})"
 SH="$(wattr h ${ROOT})"
