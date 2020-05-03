@@ -23,7 +23,7 @@ SH="$(wattr h ${ROOT})"
 WW="$((SW/${WINSCALE}))"
 WH="$((SH/${WINSCALE}))"
 
-X="$((SW-WW-10))"
+X="$((SW-WW-14))"
 
 bspc node "${WIN}" -t floating
 bspc node "${WIN}" -g sticky=true
