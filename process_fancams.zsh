@@ -11,7 +11,7 @@ usage() {
     print -u2 "Usage: ${(%):-%x} -g group -m member [-d rootdir]"
 }
 
-while getopts 'ag:m:d:G:M:epsl:h' opt; do
+while getopts 'ag:m:d:S:G:M:epsl:h' opt; do
   case "$opt" in
     a)
       auto=true
@@ -30,6 +30,9 @@ while getopts 'ag:m:d:G:M:epsl:h' opt; do
       ;;
     d)
       rootdir="${OPTARG}"
+      ;;
+    S)
+      searchdir="${OPTARG}"
       ;;
     e)
       edit=true
