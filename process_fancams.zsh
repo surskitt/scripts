@@ -67,24 +67,24 @@ $auto && {
             [ "${m}" = _group ] && continue
 
             print "${g} - ${m}"
-            $0 -g "${g}" -m "${m}" -l $logfile
+            $0 -g "${g}" -m "${m}" -l $logfile -S "$searchdir" -d "$rootdir"
 
             [ -e ${j}/.names ] && {
                 while read M; do
                     print "${g} - ${M} (${m})"
-                    $0 -g "${g}" -m "${m}" -M "${M}" -l $logfile
+                    $0 -g "${g}" -m "${m}" -M "${M}" -l $logfile -S "$searchdir" -d "$rootdir"
                 done < ${j}/.names
             }
 
             [ -e ${i}/.names ] && {
                 while read G; do
                     print "${G} (${g}) - ${m}"
-                    $0 -g "${g}" -m "${m}" -G "${G}" -l $logfile
+                    $0 -g "${g}" -m "${m}" -G "${G}" -l $logfile -S "$searchdir" -d "$rootdir"
 
                     [ -e ${j}/.names ] && {
                         while read M; do
                             print "${G} (${g}) - ${M} (${m})"
-                            $0 -g "${g}" -m "${m}" -G "${G}" -M "${M}" -l $logfile
+                            $0 -g "${g}" -m "${m}" -G "${G}" -M "${M}" -l $logfile -S "$searchdir" -d "$rootdir"
                         done < ${j}/.names
                     }
                 done < ${i}/.names
