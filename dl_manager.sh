@@ -19,8 +19,6 @@ shopt -s nocasematch
 
 DOWNLOAD_DIRECTORY="${1}"
 
-mkdir -p "${DOWNLOAD_DIRECTORY}/new"/{image,video,audio,text,doc,archive,torrent,exe,winexe,other}
-
 for f in "${DOWNLOAD_DIRECTORY}"/*;{
     [ -d "${f}" ] && continue
     # ext=$(echo "${f##*\.}"|tr '[:upper:]' '[:lower:]')
@@ -60,5 +58,6 @@ for f in "${DOWNLOAD_DIRECTORY}"/*;{
             ;;
     esac
 
-    mv "${f}" "${DOWNLOAD_DIRECTORY}/new/${type}"
+    mkdir -p "${DOWNLOAD_DIRECTORY}/sorted/${type}"
+    mv "${f}" "${DOWNLOAD_DIRECTORY}/sorted/${type}"
 }
