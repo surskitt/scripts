@@ -37,7 +37,7 @@ if [ ${#} -lt 1 ]; then
     exit 1
 fi
 
-mime=$(file -b --mime-type "${1}")
+mime=$(file -L -b --mime-type "${1}")
 
 case "${mime}" in
     image/*)
@@ -52,6 +52,9 @@ case "${mime}" in
         else
             misc_handler "${1}"
         fi
+        ;;
+    application/zip)
+        zthumb.sh -v "${1}"
         ;;
     *)
         misc_handler "${1}"
