@@ -64,6 +64,9 @@ case "${mime}" in
     application/zip)
         out=$(zthumb.sh -v "${1}")
         ;;
+    application/x-rar)
+        out=$(rthumb.sh -v "${1}")
+        ;;
     *)
         out=$(misc_handler "${1}")
         ;;
