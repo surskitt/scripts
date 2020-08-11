@@ -19,6 +19,6 @@ for i in $(seq ${monitors}); do
 
     file="${files[${n}]}"
     if [[ ${file} != "" ]]; then
-        ln -sf "${file}" ~/.bg${i}
+        ln -sf "${file}" ~/.local/share/background/${i}
     fi
 done
