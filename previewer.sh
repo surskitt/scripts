@@ -39,24 +39,35 @@ fi
 
 mime=$(file -L -b --mime-type "${1}")
 
+# cached="$(kv.sh get ${1} ~/.thumbnails/kv.tsv 2>/dev/null)"
+
+# if [[ "${cached}" != "" ]]; then
+#     echo "${cached}"
+#     exit
+# fi
+
 case "${mime}" in
     image/*)
-        echo "${1}"
+        out="${1}"
         ;;
     video/*)
-        vthumb.sh -v "${1}" 2>/dev/null
+        out=$(vthumb.sh -v "${1}" 2>/dev/null)
         ;;
     inode/directory)
-        if ls "${1}/".folder 2>/dev/null; then
-            :
+        # if ls "${1}/".folder 2>/dev/null; then
+        if [ -f "${1}/.folder" ]; then
+            out="${1}/.folder"
         else
-            misc_handler "${1}"
+            out=$(misc_handler "${1}")
         fi
         ;;
     application/zip)
-        zthumb.sh -v "${1}"
+        out=$(zthumb.sh -v "${1}")
         ;;
     *)
-        misc_handler "${1}"
+        out=$(misc_handler "${1}")
         ;;
 esac
+
+# kv.sh put "${1}" "${out}" ~/.thumbnails/kv.tsv
+echo "${out}"
