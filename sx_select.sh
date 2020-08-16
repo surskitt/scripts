@@ -13,30 +13,33 @@ if ! [ -d "${dir}" ]; then
     exit 1
 fi
 
+mkdir -p ~/.thumbnails/dirs
+THUMB_FILE=~/.thumbnails/dirs/$(echo -n "${DIR}"|sha1sum|cut -d ' ' -f 1).tsv
+
 no_refresh=true
 
-cache_size=$(wc -l "${dir}/.thumbs.tsv" 2>/dev/null|cut -d ' ' -f 1 || 0)
+cache_size=$(wc -l "${THUMB_FILE}" 2>/dev/null|cut -d ' ' -f 1 || 0)
 file_count="$(ls "${dir}"|wc -l)"
 
 if [[ ${cache_size} -ne ${file_count} ]]; then
     no_refresh=false
 fi
 
-if [[ -f "${dir}/.thumbs.tsv" && $no_refresh == true ]]; then
-    fl=$(< "${dir}/.thumbs.tsv")
+if [[ -f "${THUMB_FILE}" && $no_refresh == true ]]; then
+    fl=$(< "${THUMB_FILE}")
 else
     f=$(ls -1 -d "${dir}"/*/ 2>/dev/null ; find "${dir}" -maxdepth 1 -type f -not -path '*/\.*')
 
-    fl=$(echo "${f}"|while read fn; do
+    fl=$(echo "${f}"|while read -r fn; do
         p=$(previewer.sh "${fn}")
 
         echo "${p}${TAB}${fn}"
     done)
 
-    echo "${fl}" > "${dir}/.thumbs.tsv"
+    echo "${fl}" > "${THUMB_FILE}"
 fi
 
-s=$(echo "${fl}"|while IFS=$"${TAB}" read fn _; do echo "${fn}"; done|sxiv -ftio|head -1)
+s=$(echo "${fl}"|while IFS=$"${TAB}" read -r fn _; do echo "${fn}"; done|sxiv -ftio|head -1)
 
 if [[ "${s}" == "" ]]; then
     exit
