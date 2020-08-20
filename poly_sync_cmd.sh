@@ -5,12 +5,13 @@ usage() {
 }
 
 
-DELAY=5
+# DELAY=5
+MEMBER=${MONITOR_ID:-1}
 
-while getopts "d:x:h" opt; do
+while getopts "m:x:h" opt; do
     case "${opt}" in
-        d)
-            DELAY="${OPTARG}"
+        m)
+            MEMBER="${OPTARG}"
             ;;
         x)
             CMD="${OPTARG}"
@@ -26,28 +27,13 @@ while getopts "d:x:h" opt; do
     esac
 done
 
-d1="$(( RANDOM % DELAY ))"
-d2="$(( RANDOM % 10 ))"
-d="${d1}.${d2}"
-
-echo " ${d}"
-sleep "${d}"
-
 CMD_HASH=$(echo -n "${CMD}"|sha1sum|cut -d ' ' -f 1)
 CMD_LOG="/tmp/${CMD_HASH}_sync.log"
 
-if [ -f "${CMD_LOG}" ]; then
-    echo "tailing"
+if [[ "${MEMBER}" == 1 ]]; then
+    ${CMD} | tee -a "${CMD_LOG}"
+else
+    echo ""
+    while ! [ -f "${CMD_LOG}" ]; do sleep 1; done
     tail -f "${CMD_LOG}"
-    exit
 fi
-
-cleanup() {
-    rm "${CMD_LOG}"
-}
-
-trap "cleanup" SIGINT
-
-echo "running"
-
-${CMD} | tee -a "${CMD_LOG}"
