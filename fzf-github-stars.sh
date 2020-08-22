@@ -27,7 +27,7 @@ stars() {
             break
         fi
 
-        jq -r '.[] | "\(.name) - \(.description)\t\(.html_url)"' <<< "${j}"
+        jq -r '.[] | "\(.full_name) - \(.description)\t\(.html_url)"' <<< "${j}"
 
         page=$(( page +1 ))
     done
