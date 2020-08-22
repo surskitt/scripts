@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 
-${@:2}
+SLEEP="${1}"
+CMD=${*:2}
 
-while sleep "${1}"; do
-    ${@:2}
+$CMD
+
+interrupt() {
+    kill $(pgrep -P $$ -x sleep)
+}
+
+trap interrupt SIGUSR1
+
+while :; do
+    sleep "${SLEEP}" &
+    wait $!
+    $CMD
 done
