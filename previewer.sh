@@ -46,6 +46,8 @@ mime=$(file -L -b --mime-type "${1}")
 #     exit
 # fi
 
+MISC_ICON="/usr/share/icons/Surfn-Arc/places/128/desktop.png"
+
 case "${mime}" in
     image/*)
         out="${1}"
@@ -58,7 +60,7 @@ case "${mime}" in
         if [ -f "${1}/.folder" ]; then
             out="${1}/.folder"
         else
-            out=$(misc_handler "${1}")
+            out="${MISC_ICON}"
         fi
         ;;
     application/zip)
@@ -68,7 +70,7 @@ case "${mime}" in
         out=$(rthumb.sh -v "${1}")
         ;;
     *)
-        out=$(misc_handler "${1}")
+        out="${MISC_ICON}"
         ;;
 esac
 

@@ -13,17 +13,21 @@ if ! [ -d "${dir}" ]; then
     exit 1
 fi
 
-mkdir -p ~/.thumbnails/dirs
-THUMB_FILE=~/.thumbnails/dirs/$(echo -n "${DIR}"|sha1sum|cut -d ' ' -f 1).tsv
+mkdir -p "${dir}/.thumbs"
+THUMB_FILE=${dir}/.thumbs/thumbs.tsv
 
 no_refresh=true
 
-cache_size=$(wc -l "${THUMB_FILE}" 2>/dev/null|cut -d ' ' -f 1 || 0)
-file_count="$(ls "${dir}"|wc -l)"
+current="$(ls -l1 "${dir}" "${dir}"/*/.folder 2>/dev/null)"
+if [ -f "${dir}/.thumbs/last.txt" ]; then
+    last="$(< "${dir}/.thumbs/last.txt")"
+fi
 
-if [[ ${cache_size} -ne ${file_count} ]]; then
+if [[ "${last}" != "${current}" ]]; then
     no_refresh=false
 fi
+
+echo "${current}" > "${dir}/.thumbs/last.txt"
 
 if [[ -f "${THUMB_FILE}" && $no_refresh == true ]]; then
     fl=$(< "${THUMB_FILE}")

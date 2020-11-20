@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-OUTPUT_DIR=~/.thumbnails/video
+# OUTPUT_DIR=~/.thumbnails/video
+
 VERBOSE=false
 while getopts 'vo:h' opt; do
   case "$opt" in
@@ -22,15 +23,20 @@ while getopts 'vo:h' opt; do
 done
 shift $(( OPTIND - 1 ))
 
+OUTPUT_DIR="$(dirname "${1}")/.thumbs"
+FN="$(basename "${1}")"
+
+mkdir -p "${OUTPUT_DIR}"
+
 # [ -z "${OUTPUT_DIR}" ] && {
 #     echo "Error: please provide thumb output dir" >&2
 #     exit 1
 # }
 
-mkdir -p "${OUTPUT_DIR}"
+# mkdir -p "${OUTPUT_DIR}"
 
-VIDEO_FN="${1/#\~/$HOME}"
-vsum=$(echo -n "${VIDEO_FN}"|sha1sum|cut -d ' ' -f 1)
+# VIDEO_FN="${1/#\~/$HOME}"
+vsum=$(echo -n "${FN}"|sha1sum|cut -d ' ' -f 1)
 
 
 [ -f "${OUTPUT_DIR}/${vsum}.jpg" ] || {
