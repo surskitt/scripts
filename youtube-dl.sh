@@ -11,6 +11,7 @@ _tsp() {
 }
 
 ytdl() {
+        # --format 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' \
     _tsp youtube-dl \
         --ignore-config \
         --no-color \
@@ -24,7 +25,6 @@ ytdl() {
         --write-sub \
         --embed-subs \
         --add-metadata \
-        --format 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' \
         --output "${fn}" \
         --download-archive "${outdir}/downloads.txt" \
         "${@}"
