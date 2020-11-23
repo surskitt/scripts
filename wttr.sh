@@ -2,67 +2,67 @@
 
 get_icon() {
    case "${*}" in
-       *Clear)
+       Clear)
            echo 
            ;;
-       *Sunny)
+       Sunny)
            echo 
            ;;
-       *Partly\ cloudy)
+       Partly\ cloudy)
            echo 杖
            ;;
-       *Cloudy)
+       Cloudy)
            echo 
            ;;
-       *Overcast)
+       Overcast)
            echo 
            ;;
-       *Mist)
+       Mist)
            echo 
            ;;
-       *Patchy\ rain\ possible)
+       Patchy\ rain\ possible)
            echo 
            ;;
-       *Patchy\ snow\ possible)
+       Patchy\ snow\ possible)
            echo 
            ;;
-       *Patchy\ sleet\ possible)
+       Patchy\ sleet\ possible)
            echo 
            ;;
-       *Patchy\ freezing\ drizzle\ possible)
+       Patchy\ freezing\ drizzle\ possible)
            echo 
            ;;
-       *Thundery\ outbreaks\ possible)
+       Thundery\ outbreaks\ possible)
            echo 
            ;;
-       *Blowing\ snow)
+       Blowing\ snow)
            echo 
            ;;
-       *Blizzard)
+       Blizzard)
            echo 
            ;;
-       *Fog)
+       Fog)
            echo 
            ;;
-       *Freezing\ fog)
+       Freezing\ fog)
            echo 
            ;;
-       *Patchy\ light\ drizzle)
+       Patchy\ light\ drizzle)
            echo 
            ;;
-       *Light\ drizzle)
+       Light\ drizzle)
            echo 
            ;;
-       *Freezing\ drizzle)
+       Freezing\ drizzle)
            echo 
            ;;
-       *Heavy\ freezing\ drizzle)
+       Heavy\ freezing\ drizzle)
            echo 
            ;;
-       *Patchy\ light\ rain)
+       Patchy\ light\ rain)
            echo 
            ;;
-       *Light\ rain)
+       Light\ rain)
            echo 
            ;;
        Moderate\ rain\ at\ times)
@@ -110,6 +110,9 @@ get_icon() {
        Ice\ pellets)
            echo 
            ;;
+       Rain\ shower)
+           echo 
+           ;;
        Light\ rain\ shower)
            echo 
            ;;
@@ -142,6 +145,9 @@ get_icon() {
            ;;
        Moderate\ or\ heavy\ snow\ with\ thunder)
            echo 
+           ;;
+        Drizzle\ and\ rain)
+           echo 
            ;;
         *)
            echo "?"
